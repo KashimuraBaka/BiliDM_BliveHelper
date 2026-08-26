@@ -5,87 +5,85 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 
-namespace BliveHelper.Views.Pages
+namespace BliveHelper.Views.Pages;
+
+/// <summary>
+/// LiveBlockUsersPage.xaml 的交互逻辑
+/// </summary>
+public partial class LiveBlockUsersPage : ObservableUserControl
 {
-    /// <summary>
-    /// LiveBlockUsersPage.xaml 的交互逻辑
-    /// </summary>
-    public partial class LiveBlockUsersPage : ObservableUserControl
+    public Danmaku SelectedDanmaku
     {
-        private Danmaku selectedDanmaku;
-        public Danmaku SelectedDanmaku
+        get;
+        set => SetProperty(ref field, value);
+    }
+
+    public BliveBlockUserInfo SelectedBlockUser
+    {
+        get;
+        set => SetProperty(ref field, value);
+    }
+
+    public ObservableCollection<Danmaku> Danmakus => ENV.Danmakus;
+    public ObservableCollection<BliveBlockUserInfo> BlockUsers { get; } = [];
+
+    public ICommand CopyUIDCommand => new RelayCommand(SaveUID);
+    public ICommand BlockUserCommand => new RelayCommand<string>(BlockUser);
+    public ICommand RemoveBlockUserCommand => new RelayCommand(RemoveBlockUser);
+
+    public LiveBlockUsersPage() : base()
+    {
+        InitializeComponent();
+        Loaded += LiveBlockUsersPage_Loaded;
+    }
+
+    private void LiveBlockUsersPage_Loaded(object sender, RoutedEventArgs e)
+    {
+        RefreshBlockUsers();
+    }
+
+    public void SaveUID()
+    {
+        if (SelectedDanmaku != null)
         {
-            get => selectedDanmaku;
-            set => SetProperty(ref selectedDanmaku, value);
+            Clipboard.SetDataObject(SelectedDanmaku.UserId.ToString());
         }
-        private BliveBlockUserInfo selectedBlockUser;
-        public BliveBlockUserInfo SelectedBlockUser
+    }
+
+    private async void RefreshBlockUsers()
+    {
+        BlockUsers.Clear();
+        BlockUsers.AddRange(await ENV.BliveAPI.GetBlockUsers(ENV.BliveInfo.RoomId));
+    }
+
+    private async void BlockUser(string timeStr)
+    {
+        if (SelectedDanmaku != null && int.TryParse(timeStr, out var time))
         {
-            get => selectedBlockUser;
-            set => SetProperty(ref selectedBlockUser, value);
-        }
-
-        public ObservableCollection<Danmaku> Danmakus => ENV.Danmakus;
-        public ObservableCollection<BliveBlockUserInfo> BlockUsers { get; } = new ObservableCollection<BliveBlockUserInfo>();
-
-        public ICommand CopyUIDCommand => new RelayCommand(SaveUID);
-        public ICommand BlockUserCommand => new RelayCommand<string>(BlockUser);
-        public ICommand RemoveBlockUserCommand => new RelayCommand(RemoveBlockUser);
-
-        public LiveBlockUsersPage() : base()
-        {
-            InitializeComponent();
-            Loaded += LiveBlockUsersPage_Loaded;
-        }
-
-        private void LiveBlockUsersPage_Loaded(object sender, RoutedEventArgs e)
-        {
-            RefreshBlockUsers();
-        }
-
-        public void SaveUID()
-        {
-            if (SelectedDanmaku != null)
+            var message = await ENV.BliveAPI.AddBlockUser(ENV.BliveInfo.RoomId, SelectedDanmaku.UserId.ToString(), time);
+            if (!string.IsNullOrEmpty(message))
             {
-                Clipboard.SetDataObject(SelectedDanmaku.UserId.ToString());
+                MessageBox.Show(message, "封禁用户失败", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else
+            {
+                RefreshBlockUsers();
             }
         }
+    }
 
-        private async void RefreshBlockUsers()
+    private async void RemoveBlockUser()
+    {
+        if (SelectedBlockUser != null)
         {
-            BlockUsers.Clear();
-            BlockUsers.AddRange(await ENV.BliveAPI.GetBlockUsers(ENV.BliveInfo.RoomId));
-        }
-
-        private async void BlockUser(string timeStr)
-        {
-            if (SelectedDanmaku != null && int.TryParse(timeStr, out var time))
+            var message = await ENV.BliveAPI.RemoveBlockUser(ENV.BliveInfo.RoomId, SelectedBlockUser.BlockId);
+            if (!string.IsNullOrEmpty(message))
             {
-                var message = await ENV.BliveAPI.AddBlockUser(ENV.BliveInfo.RoomId, SelectedDanmaku.UserId.ToString(), time);
-                if (!string.IsNullOrEmpty(message))
-                {
-                    MessageBox.Show(message, "封禁用户失败", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-                else
-                {
-                    RefreshBlockUsers();
-                }
+                MessageBox.Show(message, "解除封禁失败", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-        }
-
-        private async void RemoveBlockUser()
-        {
-            if (SelectedBlockUser != null)
+            else
             {
-                var message = await ENV.BliveAPI.RemoveBlockUser(ENV.BliveInfo.RoomId, SelectedBlockUser.BlockId);
-                if (!string.IsNullOrEmpty(message))
-                {
-                    MessageBox.Show(message, "解除封禁失败", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-                else
-                {
-                    BlockUsers.Remove(SelectedBlockUser);
-                }
+                BlockUsers.Remove(SelectedBlockUser);
             }
         }
     }

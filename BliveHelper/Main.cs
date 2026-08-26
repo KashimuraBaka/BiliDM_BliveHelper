@@ -2,26 +2,25 @@
 using BliveHelper.Utils;
 using BliveHelper.Views.Windows;
 
-namespace BliveHelper
+namespace BliveHelper;
+
+public partial class Main : DMPlugin
 {
-    public partial class Main : DMPlugin
+    public MainWindow AdminWindow { get; } = new MainWindow();
+
+    public Main()
     {
-        public MainWindow AdminWindow { get; } = new MainWindow();
+        ENV.Plugin = this;
 
-        public Main()
-        {
-            ENV.Plugin = this;
+        PluginAuth = "Kashimura";
+        PluginName = "BliveHelper";
+        PluginCont = "kashimura@qq.com";
+        PluginVer = ENV.AppVersion;
+        PluginDesc = "Bilibili直播 开播助手";
 
-            PluginAuth = "Kashimura";
-            PluginName = "BliveHelper";
-            PluginCont = "kashimura@qq.com";
-            PluginVer = ENV.AppVersion;
-            PluginDesc = "Bilibili直播 开播助手";
-
-            Connected += OnConnected;
-            Disconnected += OnDisconnected;
-            ReceivedDanmaku += OnReceivedDanmaku;
-            ReceivedRoomCount += OnReceivedRoomCount;
-        }
+        Connected += OnConnected;
+        Disconnected += OnDisconnected;
+        ReceivedDanmaku += OnReceivedDanmaku;
+        ReceivedRoomCount += OnReceivedRoomCount;
     }
 }

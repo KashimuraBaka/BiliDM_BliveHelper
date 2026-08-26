@@ -1,32 +1,28 @@
 ﻿using BliveHelper.Utils.Structs;
 using Newtonsoft.Json;
 
-namespace BliveHelper.Utils
+namespace BliveHelper.Utils;
+
+public class WebSocketSetting : ObservableObject
 {
-    public class WebSocketSetting : ObservableObject
+    [JsonProperty("server_url")]
+    public string ServerUrl
     {
-        private string serverUrl = "localhost:4455";
-        [JsonProperty("server_url")]
-        public string ServerUrl
-        {
-            get => serverUrl;
-            set => SetProperty(ref serverUrl, value);
-        }
+        get;
+        set => SetProperty(ref field, value);
+    } = "localhost:4455";
 
-        private string serverKey = string.Empty;
-        [JsonProperty("server_key")]
-        public string ServerKey
-        {
-            get => serverKey;
-            set => SetProperty(ref serverKey, value);
-        }
+    [JsonProperty("server_key")]
+    public string ServerKey
+    {
+        get;
+        set => SetProperty(ref field, value);
+    } = string.Empty;
 
-        private bool autoStream;
-        [JsonProperty("auto_stream")]
-        public bool AutoStream
-        {
-            get => autoStream;
-            set => SetProperty(ref autoStream, value);
-        }
+    [JsonProperty("auto_stream")]
+    public bool AutoStream
+    {
+        get;
+        set => SetProperty(ref field, value);
     }
 }

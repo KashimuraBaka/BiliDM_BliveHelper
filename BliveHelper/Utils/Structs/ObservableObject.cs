@@ -4,57 +4,56 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 
-namespace BliveHelper.Utils.Structs
+namespace BliveHelper.Utils.Structs;
+
+public abstract class ObservableObject : INotifyPropertyChanged
 {
-    public abstract class ObservableObject : INotifyPropertyChanged
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    protected void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
-            field = value;
-            NotifyPropertyChanged(propertyName);
-            return true;
-        }
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
-    public abstract class ObservableUserControl : UserControl, INotifyPropertyChanged
+    protected bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+        field = value;
+        NotifyPropertyChanged(propertyName);
+        return true;
+    }
+}
 
-        public ObservableUserControl()
-        {
-            DataContext = this;
-        }
+public abstract class ObservableUserControl : UserControl, INotifyPropertyChanged
+{
+    public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
-            field = value;
-            NotifyPropertyChanged(propertyName);
-            return true;
-        }
+    public ObservableUserControl()
+    {
+        DataContext = this;
     }
 
-    public static class ObservableCollectionHelper
+    protected void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
     {
-        public static void AddRange<T>(this ObservableCollection<T> collection, IEnumerable<T> values)
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    protected bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
+    {
+        if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+        field = value;
+        NotifyPropertyChanged(propertyName);
+        return true;
+    }
+}
+
+public static class ObservableCollectionHelper
+{
+    public static void AddRange<T>(this ObservableCollection<T> collection, IEnumerable<T> values)
+    {
+        foreach (var value in values)
         {
-            foreach (var value in values)
-            {
-                collection.Add(value);
-            }
+            collection.Add(value);
         }
     }
 }

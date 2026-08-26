@@ -10,29 +10,28 @@ namespace BliveHelper.Views.Pages
     /// </summary>
     public partial class ObsSettingsPage : ObservableUserControl
     {
-        private string serverUrl;
         public string ServerUrl
         {
-            get => serverUrl;
-            set => SetProperty(ref serverUrl, value);
+            get;
+            set => SetProperty(ref field, value);
         }
-        private string serverKey;
+
         public string ServerKey
         {
-            get => serverKey;
-            set => SetProperty(ref serverKey, value);
+            get;
+            set => SetProperty(ref field, value);
         }
-        private bool autoStream;
+
         public bool AutoStream
         {
-            get => autoStream;
-            set => SetProperty(ref autoStream, value);
+            get;
+            set => SetProperty(ref field, value);
         }
-        private bool saveEnable = true;
+
         public bool SaveEnable
         {
-            get => saveEnable;
-            set => SetProperty(ref saveEnable, value);
+            get;
+            set => SetProperty(ref field, value);
         }
 
         public ICommand SaveWebsocketSettingCommand => new RelayCommand(SaveWebsocketSetting);

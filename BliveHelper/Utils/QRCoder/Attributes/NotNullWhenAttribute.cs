@@ -1,25 +1,19 @@
-namespace System.Diagnostics.CodeAnalysis
+namespace System.Diagnostics.CodeAnalysis;
+
+/// <summary>
+/// Specifies that when a method returns System.Diagnostics.CodeAnalysis.NotNullWhenAttribute.ReturnValue,
+/// the parameter will not be null even if the corresponding type allows it.
+/// </summary>
+/// <remarks>
+/// Initializes the attribute with the specified return value condition.
+/// </remarks>
+/// <param name="returnValue">If the method returns this value, the associated parameter will not be null.</param>
+[AttributeUsage(AttributeTargets.Parameter, Inherited = false)]
+public sealed class NotNullWhenAttribute(bool returnValue) : Attribute
 {
     /// <summary>
-    /// Specifies that when a method returns System.Diagnostics.CodeAnalysis.NotNullWhenAttribute.ReturnValue,
-    /// the parameter will not be null even if the corresponding type allows it.
+    /// Gets the return value condition. If the method returns this value, the associated
+    /// parameter will not be null.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Parameter, Inherited = false)]
-    public sealed class NotNullWhenAttribute : Attribute
-    {
-        /// <summary>
-        /// Initializes the attribute with the specified return value condition.
-        /// </summary>
-        /// <param name="returnValue">If the method returns this value, the associated parameter will not be null.</param>
-        public NotNullWhenAttribute(bool returnValue)
-        {
-            ReturnValue = returnValue;
-        }
-
-        /// <summary>
-        /// Gets the return value condition. If the method returns this value, the associated
-        /// parameter will not be null.
-        /// </summary>
-        public bool ReturnValue { get; }
-    }
+    public bool ReturnValue { get; } = returnValue;
 }

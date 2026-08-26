@@ -1,13 +1,7 @@
-﻿namespace BliveHelper.Views.Components
+﻿namespace BliveHelper.Views.Components;
+
+public class TabItemModel(string header, object content)
 {
-    public class TabItemModel
-    {
-        public string Header { get; set; }
-        public object Content { get; set; }
-        public TabItemModel(string header, object content)
-        {
-            Header = header;
-            Content = content;
-        }
-    }
+    public string Header { get; set; } = header;
+    public object Content { get; set; } = content;
 }
