@@ -65,7 +65,7 @@ public partial class MainWindow : BaseWindow
     {
         get;
         set => SetProperty(ref field, value);
-    }
+    } = true;
 
     // 选择标签页
     public TabItemModel SelectedPage
@@ -116,10 +116,10 @@ public partial class MainWindow : BaseWindow
         SelectedPage = Pages.First();
     }
 
-    private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+    private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
     {
         // 如果没有 Cookies 则显示二维码扫码登录
-        if (ENV.Config.Cookies.Count == 0)
+        if (ENV.Config.Cookies.Count == 0 || await ENV.BliveAPI.GetInfo() is null)
         {
             RefreshLoginQR();
         }

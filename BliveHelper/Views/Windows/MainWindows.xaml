@@ -36,7 +36,10 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <!--  工具栏  -->
-            <Border Padding="8,6,6,6" Background="#F5F5F8" PreviewMouseDown="OnToolBarMouseDown">
+            <Border
+                Padding="8,6,6,6"
+                Background="#F5F5F8"
+                PreviewMouseDown="OnToolBarMouseDown">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -48,12 +51,18 @@
                     </DockPanel>
                     <Separator Grid.Column="1" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                     <DockPanel Grid.Column="2" Margin="4,0,0,0">
-                        <Button Command="{Binding CloseCommand}" Style="{StaticResource IconButton}" Tag="Close" />
+                        <Button
+                            Command="{Binding CloseCommand}"
+                            Style="{StaticResource IconButton}"
+                            Tag="Close" />
                     </DockPanel>
                 </Grid>
             </Border>
             <!--  主要显示内容  -->
-            <Grid Grid.Row="1" Margin="8,8,8,6" IsEnabled="{Binding Info.UserName, Converter={StaticResource ValueToBooleanConverter}}">
+            <Grid
+                Grid.Row="1"
+                Margin="8,8,8,6"
+                IsEnabled="{Binding Info.UserName, Converter={StaticResource ValueToBooleanConverter}}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
@@ -67,28 +76,48 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <DockPanel Grid.Column="0" HorizontalAlignment="Left">
-                        <TextBlock Margin="0,0,5,0" VerticalAlignment="Center" Text="账户" />
+                        <TextBlock
+                            Margin="0,0,5,0"
+                            VerticalAlignment="Center"
+                            Text="账户" />
                         <Button
                             Margin="0,0,5,0"
                             VerticalAlignment="Center"
                             Command="{Binding OpenUserPageCommand}"
                             Content="{Binding UserName}"
                             Style="{StaticResource TextButton}" />
-                        <Button VerticalAlignment="Center" Command="{Binding CopyUserIdCommand}" Content="复制" Style="{StaticResource TextButton}" />
+                        <Button
+                            VerticalAlignment="Center"
+                            Command="{Binding CopyUserIdCommand}"
+                            Content="复制"
+                            Style="{StaticResource TextButton}" />
                     </DockPanel>
                     <DockPanel Grid.Column="1" HorizontalAlignment="Left">
-                        <TextBlock Margin="0,0,5,0" VerticalAlignment="Center" Text="房间号" />
+                        <TextBlock
+                            Margin="0,0,5,0"
+                            VerticalAlignment="Center"
+                            Text="房间号" />
                         <Button
                             Margin="0,0,5,0"
                             VerticalAlignment="Center"
                             Command="{Binding OpenLivePageCommand}"
                             Content="{Binding RoomIdText}"
                             Style="{StaticResource TextButton}" />
-                        <Button VerticalAlignment="Center" Command="{Binding CopyLiveRoomdIdCommand}" Content="复制" Style="{StaticResource TextButton}" />
+                        <Button
+                            VerticalAlignment="Center"
+                            Command="{Binding CopyLiveRoomdIdCommand}"
+                            Content="复制"
+                            Style="{StaticResource TextButton}" />
                     </DockPanel>
                     <DockPanel Grid.Column="2" HorizontalAlignment="Left">
-                        <TextBlock Margin="0,0,5,0" VerticalAlignment="Center" Text="OBS 状态:" />
-                        <TextBlock VerticalAlignment="Center" Foreground="#61666D" Text="{Binding WebSocketStateText}" />
+                        <TextBlock
+                            Margin="0,0,5,0"
+                            VerticalAlignment="Center"
+                            Text="OBS 状态:" />
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Foreground="#61666D"
+                            Text="{Binding WebSocketStateText}" />
                     </DockPanel>
                     <Button
                         Grid.Column="3"
@@ -129,7 +158,11 @@
                         Margin="0,0,5,0"
                         VerticalAlignment="Center"
                         Text="直播间聊天" />
-                    <TextBox Grid.Column="1" Background="White" IsEnabled="{Binding DanmuEnable}" Text="{Binding DanmuMessage}" />
+                    <TextBox
+                        Grid.Column="1"
+                        Background="White"
+                        IsEnabled="{Binding DanmuEnable}"
+                        Text="{Binding DanmuMessage}" />
                     <Button
                         Grid.Column="2"
                         Width="60"
@@ -141,13 +174,21 @@
                 </Grid>
             </Grid>
             <!--  二维码  -->
-            <Border Grid.Row="1" Padding="10" Background="#55000000" Visibility="{Binding ScanQR, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Border
+                Grid.Row="1"
+                Padding="10"
+                Background="#55000000"
+                Visibility="{Binding ScanQR, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <Image Grid.Row="0" Cursor="Hand" PreviewMouseDown="OnQRImageMouseDown" Source="{Binding QrCodeImage}" />
+                    <Image
+                        Grid.Row="0"
+                        Cursor="Hand"
+                        PreviewMouseDown="OnQRImageMouseDown"
+                        Source="{Binding QrCodeImage}" />
                     <TextBlock
                         Grid.Row="1"
                         Margin="0,5,0,0"
