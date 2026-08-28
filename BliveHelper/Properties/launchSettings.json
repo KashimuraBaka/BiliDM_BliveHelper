@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "BliveHelper": {
+      "commandName": "Project"
+    },
+    "Danmuji": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Users\\Kashimura\\AppData\\Local\\Apps\\2.0\\9MQ9ADCM.Z7W\\ZG9KLW0H.A01\\bili..tion_0000000000000000_0001.0001_1a8ba1f777455ece\\Bililive_dm.exe",
+      "commandLineArgs": "--debug"
+    }
+  }
+}
